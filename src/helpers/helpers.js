@@ -46,4 +46,13 @@ const mergeTagResult = (data) => {
   });
 };
 
-module.exports = { sortByOption, validCheck, mergeTagResult };
+const getCache = (myCache, key) => {
+  return new Promise((resolve, reject) => {
+    if (myCache.has(key)) {
+      const data = myCache.get(key);
+      resolve(data);
+    }
+  });
+};
+
+module.exports = { sortByOption, validCheck, mergeTagResult, getCache };
