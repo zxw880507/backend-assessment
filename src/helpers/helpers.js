@@ -1,10 +1,8 @@
-const findByTags = (json, filters) => {
-  let data = { ...json };
-  console.log(filters);
-  const { optionalTags, sortBy, direction } = filters;
-  optionalTags.forEach((tag) => {
-    data.posts = data.posts.filter((ele) => ele.tags.includes(tag));
-  });
+const sortByOption = (value, filters) => {
+  const data = { ...value };
+
+  const { sortBy, direction } = filters;
+
   switch (direction) {
     case "asc":
       data.posts.sort((a, b) => a[sortBy] - b[sortBy]);
@@ -36,5 +34,16 @@ const validCheck = (sortBy = "id", direction = "asc") => {
   }
 };
 
+const mergeTagResult = (data) => {
+  let arr = data.map((each, index) => {
+    return index ? each.posts.map((ele) => ele.id) : each;
+  });
 
-module.exports = { findByTags, validCheck };
+  return arr.reduce((a, b) => {
+    const copyA = { ...a };
+    copyA.posts = copyA.posts.filter((ele) => b.includes(ele.id));
+    return copyA;
+  });
+};
+
+module.exports = { sortByOption, validCheck, mergeTagResult };

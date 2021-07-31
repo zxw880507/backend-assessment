@@ -1,6 +1,10 @@
 const router = require("express").Router();
 const axios = require("axios");
-const { findByTags, validCheck } = require("../../helpers/helpers");
+const {
+  sortByOption,
+  validCheck,
+  mergeTagResult,
+} = require("../../helpers/helpers");
 
 router.get("/", (request, response) => {
   console.log(request.query);
@@ -16,16 +20,29 @@ router.get("/", (request, response) => {
       if (!sortBy || !direction) {
         response.redirect(`posts?tags=${tags}&${result}`);
       } else {
-        axios
-          .get(
-            `https://api.hatchways.io/assessment/blog/posts?tag=${tagsArr[0]}`
-          )
-          .then((res) => {
-            const filters = { optionalTags, sortBy, direction };
-            const data = findByTags(res.data, filters);
-            response.status(200).json(data);
-          })
-          .catch((err) => console.log(err));
+        const promiseArr = tagsArr.map((tag) =>
+          axios
+            .get(`https://api.hatchways.io/assessment/blog/posts?tag=${tag}`)
+            .then((res) => res.data)
+        );
+
+        Promise.all(promiseArr).then((values) => {
+          const filters = { sortBy, direction };
+          const resultByTags = mergeTagResult(values);
+          const optionalSort = sortByOption(resultByTags, filters);
+          response.status(200).json(optionalSort);
+        });
+
+        //   axios
+        //     .get(
+        //       `https://api.hatchways.io/assessment/blog/posts?tag=${tagsArr[0]}`
+        //     )
+        //     .then((res) => {
+        //       const filters = { optionalTags, sortBy, direction };
+        //       const data = findByTags(res.data, filters);
+        //       response.status(200).json(data);
+        //     })
+        //     .catch((err) => console.log(err));
       }
     }
   } else {
