@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const axios = require("axios");
-const array = require("lodash/array");
 const NodeCache = require("node-cache");
 const myCache = new NodeCache();
 
