@@ -35,15 +35,23 @@ const validCheck = (sortBy = "id", direction = "asc") => {
 };
 
 const mergeTagResult = (data) => {
-  let arr = data.map((each, index) => {
-    return index ? each.posts.map((ele) => ele.id) : each;
+  const merged = data.reduce((obj1, obj2) => {
+    obj1.posts = obj1.posts.concat(obj2.posts);
+    return obj1;
   });
 
-  return arr.reduce((a, b) => {
-    const copyA = { ...a };
-    copyA.posts = copyA.posts.filter((ele) => b.includes(ele.id));
-    return copyA;
-  });
+  const newObj = { ...merged };
+  newObj.posts = [...new Map(merged.posts.map((x) => [x.id, x])).values()];
+  // let arr = data.map((each, index) => {
+  //   return index ? each.posts.map((ele) => ele.id) : each;
+  // });
+
+  // return arr.reduce((a, b) => {
+  //   const copyA = { ...a };
+  //   copyA.posts = copyA.posts.filter((ele) => b.includes(ele.id));
+  //   return copyA;
+  // });
+  return newObj;
 };
 
 const getCache = (myCache, key) => {

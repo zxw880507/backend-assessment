@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const axios = require("axios");
+const array = require("lodash/array");
 const NodeCache = require("node-cache");
 const myCache = new NodeCache();
 
@@ -11,7 +12,6 @@ const {
 } = require("../../helpers/helpers");
 
 router.get("/", (request, response) => {
- 
   const { tags, sortBy, direction } = request.query;
 
   if (tags) {
@@ -40,8 +40,8 @@ router.get("/", (request, response) => {
 
         Promise.all(promiseArr).then((values) => {
           const filters = { sortBy, direction };
-          const resultByTags = mergeTagResult(values);
-          const optionalSort = sortByOption(resultByTags, filters);
+          const mergeValues = mergeTagResult(values);
+          const optionalSort = sortByOption(mergeValues, filters);
           response.status(200).json(optionalSort);
         });
       }
