@@ -1,6 +1,6 @@
 # backend-assessment 
 
-This project was written in `3 days (approximately 21 hours)` to:
+This project was written in `approximately 22 hours` to:
 
 1. set up a basic API with Javascript - `Node + Express`
 2. `Jest` as Test Suite to verify the API working properly
