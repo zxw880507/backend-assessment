@@ -17,7 +17,7 @@ router.get("/", (request, response) => {
     const tagsArr = tags.split(",");
     const result = validCheck(sortBy, direction);
     if (result.msg) {
-      response.status(404).json(result.msg);
+      response.status(400).json(result.msg);
     } else {
       const promiseArr = tagsArr.map((tag) => {
         if (myCache.has(tag)) {
@@ -41,7 +41,7 @@ router.get("/", (request, response) => {
       });
     }
   } else {
-    response.status(404).json({ error: "Tags parameter is required" });
+    response.status(400).json({ error: "Tags parameter is required" });
   }
 });
 
