@@ -17,7 +17,7 @@ const sortByOption = (value, filters) => {
 const validCheck = (sortBy = "id", direction = "asc") => {
   if (["id", "reads", "likes", "popularity"].includes(sortBy)) {
     if (["asc", "desc"].includes(direction)) {
-      return `sortBy=${sortBy}&direction=${direction}`;
+      return { sortBy, direction };
     } else {
       return {
         msg: {
@@ -42,15 +42,6 @@ const mergeTagResult = (data) => {
 
   const newObj = { ...merged };
   newObj.posts = [...new Map(merged.posts.map((x) => [x.id, x])).values()];
-  // let arr = data.map((each, index) => {
-  //   return index ? each.posts.map((ele) => ele.id) : each;
-  // });
-
-  // return arr.reduce((a, b) => {
-  //   const copyA = { ...a };
-  //   copyA.posts = copyA.posts.filter((ele) => b.includes(ele.id));
-  //   return copyA;
-  // });
   return newObj;
 };
 

@@ -19,31 +19,26 @@ router.get("/", (request, response) => {
     if (result.msg) {
       response.status(404).json(result.msg);
     } else {
-      if (!sortBy || !direction) {
-        response.redirect(`posts?tags=${tags}&${result}`);
-      } else {
-        const promiseArr = tagsArr.map((tag) => {
-          if (myCache.has(tag)) {
-            return getCache(myCache, tag).then((data) => {
-              return data;
+      const promiseArr = tagsArr.map((tag) => {
+        if (myCache.has(tag)) {
+          return getCache(myCache, tag).then((data) => {
+            return data;
+          });
+        } else {
+          return axios
+            .get(`https://api.hatchways.io/assessment/blog/posts?tag=${tag}`)
+            .then((res) => {
+              myCache.set(tag, res.data);
+              return res.data;
             });
-          } else {
-            return axios
-              .get(`https://api.hatchways.io/assessment/blog/posts?tag=${tag}`)
-              .then((res) => {
-                myCache.set(tag, res.data);
-                return res.data;
-              });
-          }
-        });
+        }
+      });
 
-        Promise.all(promiseArr).then((values) => {
-          const filters = { sortBy, direction };
-          const mergeValues = mergeTagResult(values);
-          const optionalSort = sortByOption(mergeValues, filters);
-          response.status(200).json(optionalSort);
-        });
-      }
+      Promise.all(promiseArr).then((values) => {
+        const mergeValues = mergeTagResult(values);
+        const optionalSort = sortByOption(mergeValues, result);
+        response.status(200).json(optionalSort);
+      });
     }
   } else {
     response.status(404).json({ error: "Tags parameter is required" });
