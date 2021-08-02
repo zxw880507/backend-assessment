@@ -51,9 +51,9 @@ Launches the test runner in the interactive watch mode.
 
   - Response:
 
-        - data fetched successfully:
+    - data fetched successfully:
 
-          ```javascript
+     ```javascript
           { "posts": [{
           "id": 1,
           "author": "Rylee Paul",
@@ -64,25 +64,25 @@ Launches the test runner in the interactive watch mode.
           "tags": [ "tech", "health" ] },
           ...
            ]}
-          ```
+     ```
 
-        - data fetched failed status code 400:
+    - data fetched failed status code 400:
 
-          ```javascript
-          {
-            "error": "Tags parameter is required"
-          }
-          ```
+      ```javascript
+        {
+          "error": "Tags parameter is required"
+        }
+      ```
 
-          OR
+      OR
 
-          ```javascript
-          {
-           "error": "sortBy parameter is invalid"
-          }
-          ```
+      ```javascript
+        {
+          "error": "sortBy parameter is invalid"
+        }
+      ```
 
-    <br>
+<br>
 
 ## Additional Feature
 
