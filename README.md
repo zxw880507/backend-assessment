@@ -1,6 +1,6 @@
-# backend-assessment
+# backend-assessment 
 
-This project was written to:
+This project was written in `3 days (approximately 21 hours)` to:
 
 1. set up a basic API with Javascript - `Node + Express`
 2. `Jest` as Test Suite to verify the API working properly
@@ -53,7 +53,7 @@ Launches the test runner in the interactive watch mode.
 
     - data fetched successfully:
 
-     ```javascript
+      ```javascript
           { "posts": [{
           "id": 1,
           "author": "Rylee Paul",
@@ -64,7 +64,7 @@ Launches the test runner in the interactive watch mode.
           "tags": [ "tech", "health" ] },
           ...
            ]}
-     ```
+      ```
 
     - data fetched failed status code 400:
 
