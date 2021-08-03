@@ -3,14 +3,10 @@ const sortByOption = (value, filters) => {
 
   const { sortBy, direction } = filters;
 
-  switch (direction) {
-    case "asc":
-      data.posts.sort((a, b) => a[sortBy] - b[sortBy]);
-      break;
-    case "desc":
-      data.posts.sort((a, b) => b[sortBy] - a[sortBy]);
-      break;
-  }
+  data.posts.sort((a, b) => {
+    return direction === "asc" ? a[sortBy] - b[sortBy] : b[sortBy] - a[sortBy];
+  });
+
   return data;
 };
 
@@ -18,20 +14,18 @@ const validCheck = (sortBy = "id", direction = "asc") => {
   if (["id", "reads", "likes", "popularity"].includes(sortBy)) {
     if (["asc", "desc"].includes(direction)) {
       return { sortBy, direction };
-    } else {
-      return {
-        msg: {
-          error: "direction parameter is invalid",
-        },
-      };
     }
-  } else {
     return {
       msg: {
-        error: "sortBy parameter is invalid",
+        error: "direction parameter is invalid",
       },
     };
   }
+  return {
+    msg: {
+      error: "sortBy parameter is invalid",
+    },
+  };
 };
 
 const mergeTagResult = (data) => {
